@@ -13,6 +13,7 @@ let zoho = new Zoho({
 const ZOHO_CRM_AUTH_KEY = '87af71914e56ea21367bbfbfd74d1202'
 const zohorde = require('zohorde')(ZOHO_CRM_AUTH_KEY);
 
+
 /////////////////
 //mailchimp conf//
 ////////////////
@@ -25,7 +26,7 @@ var mailchimpInstance = 'us17',
 
 let data = [];
 
-router.post('/mail', (req, res, next) => {
+router.post('/add', (req, res, next) => {
 	data.push(req.body);
 	request
 		.post('https://' + mailchimpInstance + '.api.mailchimp.com/3.0/lists/' + listUniqueId + '/members/')
@@ -48,13 +49,17 @@ router.post('/mail', (req, res, next) => {
 					} else if (result.isError()) {
 						console.log(result.message);
 					} else {
-						req.body.zoho_id = result.data.Id;
-						console.log(req.body);
 						let dat = {
 							firstname : req.body["First Name"],
 							fullname : req.body["Full Name"],
 							lastname : req.body["Last Name"],
-							email : req.body.Email
+							email : req.body.Email,
+							address1: req.body.Address1,
+							address2: req.body.Address2,
+							country: req.body.Country,
+							city: req.body.City,
+							postal_code: req.body.Postal,
+							zoho_id : result.data.Id
 						}
 						let newUser = new User(dat);
 						newUser.save().then(() => {
@@ -129,27 +134,27 @@ router.get('/user/:id', (req, res, next) => {
 // add user    ///link localhost:3000/add
 //////////////////
 
-// router.post("/add", (req, res, next) => {
-// 	let records = [req.body];
-// 	zoho.execute('crm', 'Leads', 'insertRecords', records, (err, result) => {
-// 		if (err !== null) {
-// 			console.log(err);
-// 		} else if (result.isError()) {
-// 			console.log(result.message);
-// 		} else {
-// 			req.body.zoho_id = result.data.Id;
-// 			console.log(req.body);
-// 			let newUser = new User(req.body);
-// 			newUser.save().then(() => {
-// 				res.json(200, {
-// 					msg: 'Users list save to database'
-// 				})
-// 			}).catch((err) => {
-// 				console.log(err);
-// 			});
-// 		}
-// 	});
-// });
+router.post("/add", (req, res, next) => {
+	let records = [req.body];
+	zoho.execute('crm', 'Leads', 'insertRecords', records, (err, result) => {
+		if (err !== null) {
+			console.log(err);
+		} else if (result.isError()) {
+			console.log(result.message);
+		} else {
+			req.body.zoho_id = result.data.Id;
+			console.log(req.body);
+			let newUser = new User(req.body);
+			newUser.save().then(() => {
+				res.json(200, {
+					msg: 'Users list save to database'
+				})
+			}).catch((err) => {
+				console.log(err);
+			});
+		}
+	});
+});
 
 /////////////////////////
 // update  user by id   //////link localhost:3000/update/user/5a591ce1cb240a37c2616095
