@@ -1,6 +1,6 @@
-# node_mongo_restApi_herocu_mLab
+# node_mongo_restApi_herocu_mLab_mailchimp
 
-Rest api on express and mongodb
+Rest api on express and heroku mailchimp zoho mongolab 
 
 run npm i
 
