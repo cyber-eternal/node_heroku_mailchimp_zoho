@@ -14,8 +14,10 @@ run npm i
 	For add user list send POST request  localhost:3000/add  and send request body 
 							name and surname is required
 							({
-							"name":"John",
-							"surname": "Smith",
+							"First Name":"John",
+							"Full Name": "Smith",
+							"Last Name" : "Smith"
+							"Email" : "jihn@mail.ru"
 							"country":"England",
 							"city":	"London",
 							"postal_code":"54894313",

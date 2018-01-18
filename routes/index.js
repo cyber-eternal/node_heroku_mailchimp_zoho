@@ -40,7 +40,6 @@ router.post('/mail', (req, res, next) => {
 			}
 		})
 		.end(function (err, response) {
-			// console.log(response.body);
 			if (response.status < 300 || (response.status === 400 && response.body.title === "Member Exists")) {
 				console.log('Success!');
 				zoho.execute('crm', 'Leads', 'insertRecords', data, (err, result) => {
@@ -51,13 +50,13 @@ router.post('/mail', (req, res, next) => {
 					} else {
 						req.body.zoho_id = result.data.Id;
 						console.log(req.body);
-						let data = {
+						let dat = {
 							firstname : req.body["First Name"],
 							fullname : req.body["Full Name"],
 							lastname : req.body["Last Name"],
 							email : req.body.Email
 						}
-						let newUser = new User(data);
+						let newUser = new User(dat);
 						newUser.save().then(() => {
 							res.json(200, {
 								msg: 'Users list save to database'
