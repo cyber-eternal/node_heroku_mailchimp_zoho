@@ -10,7 +10,7 @@ const User = require('../model/schemas/users.js');
 let zoho = new Zoho({
 	authToken: '87af71914e56ea21367bbfbfd74d1202'
 });
-const ZOHO_CRM_AUTH_KEY = '87af71914e56ea21367bbfbfd74d1202'
+const ZOHO_CRM_AUTH_KEY = '87af71914e56ea21367bbfbfd74d1202';
 const zohorde = require('zohorde')(ZOHO_CRM_AUTH_KEY);
 
 
@@ -50,16 +50,16 @@ router.post('/add', (req, res, next) => {
 						console.log(result.message);
 					} else {
 						let dat = {
-							firstname : req.body["First Name"],
-							fullname : req.body["Full Name"],
-							lastname : req.body["Last Name"],
-							email : req.body.Email,
+							firstname: req.body["First Name"],
+							fullname: req.body["Full Name"],
+							lastname: req.body["Last Name"],
+							email: req.body.Email,
 							address1: req.body.Address1,
 							address2: req.body.Address2,
 							country: req.body.Country,
 							city: req.body.City,
 							postal_code: req.body.Postal,
-							zoho_id : result.data.Id
+							zoho_id: result.data.Id
 						}
 						let newUser = new User(dat);
 						newUser.save().then(() => {
@@ -126,7 +126,6 @@ router.get('/user/:id', (req, res, next) => {
 				msg: "User not found"
 			})
 		}
-
 	});
 });
 
@@ -148,7 +147,7 @@ router.post("/add", (req, res, next) => {
 			newUser.save().then(() => {
 				res.json(200, {
 					msg: 'Users list save to database'
-				})
+				});
 			}).catch((err) => {
 				console.log(err);
 			});
@@ -169,10 +168,10 @@ router.put("/update/user/:id", (req, res, next) => {
 					let id = updatedUser.zoho_id;
 					let moduleName = 'Leads';
 					let data = {
-						firstname : req.body["First Name"],
-						fullname : req.body["Full Name"],
-						lastname : req.body["Last Name"],
-						email : req.body.Email
+						firstname: req.body["First Name"],
+						fullname: req.body["Full Name"],
+						lastname: req.body["Last Name"],
+						email: req.body.Email
 					}
 					let params = {
 						id: id,
